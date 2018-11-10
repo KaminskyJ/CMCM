@@ -1,11 +1,12 @@
 import random
 import numpy as np
 from scipy.spatial import distance
+import pdf
 
 X_WIDTH = 3
 Y_WIDTH = 3
 
-def gen_rand_coord(x, y):
+def gen_unif(x, y):
 	return (random.uniform(0,x),random.uniform(0,y))
 
 def find_closest_amb(ambs, coord):
@@ -21,6 +22,7 @@ def find_closest_amb(ambs, coord):
 	
 	return [best_amb, best_dist]
 
+#MONTE CARLO SIMULATION
 def run_sim(ambs):
 	num_of_success = 0
 	num_of_failure = 0
@@ -30,17 +32,27 @@ def run_sim(ambs):
 				ambo[1] -= 1
 		if random.random() > 0.00763888888:
 			continue
-		coord = gen_rand_coord(X_WIDTH,Y_WIDTH)
+		coord = pdf.gen_random_point()
 		amb, best_dist = find_closest_amb(ambs, coord)
-		if amb == None or best_dist > 2:
+		if amb == None or best_dist > 500:
 			num_of_failure += 1
 		else:
-			amb[1] = 20
+			amb[1] = 30
 			num_of_success += 1
 	
 	return num_of_failure/(num_of_failure + num_of_success)
-	
 
+def main():
+	amb1 = [(0,0),0]
+	amb2 = [(1680,2048),0]
+	print(run_sim([amb1,amb2]))
+
+
+if __name__ == "__main__":
+	main()
+
+
+"""
 THRESHOLD = .1
 def find_best(amb_loc, score_to_beat):
 	a,b = amb_loc
@@ -60,12 +72,4 @@ def find_best(amb_loc, score_to_beat):
 		return find_best((a,b+THRESHOLD), up_score)
 	else:
 		return (round(a,1),round(b,1))
-	
-def main():
-	amb1 = [(0,0),0]
-	amb2 = [(X_WIDTH, Y_WIDTH),0]
-	print(run_sim([amb1,amb2]))
-	
-
-if __name__ == "__main__":
-	main()
+"""

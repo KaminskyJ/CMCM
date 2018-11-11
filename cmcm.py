@@ -32,9 +32,9 @@ def run_sim(ambs):
 				ambo[1] -= 1
 		if random.random() > 0.00763888888:
 			continue
-		coord = pdf.gen_random_point()
+		coord = gen_unif(X_WIDTH,Y_WIDTH)
 		amb, best_dist = find_closest_amb(ambs, coord)
-		if amb == None or best_dist > 500:
+		if amb == None or best_dist > 2:
 			num_of_failure += 1
 		else:
 			amb[1] = 30
@@ -42,9 +42,13 @@ def run_sim(ambs):
 	
 	return num_of_failure/(num_of_failure + num_of_success)
 
+def find_best(ambs, score_to_beat):
+	
+	pass
+
 def main():
-	amb1 = [(0,0),0]
-	amb2 = [(1680,2048),0]
+	amb1 = [(1,1),0]
+	amb2 = [(2,2),0]
 	print(run_sim([amb1,amb2]))
 
 
